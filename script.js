@@ -1,6 +1,14 @@
-const rockButton = document.querySelector("#rock");
-const paperButton = document.querySelector("#paper");
-const scissorsButton = document.querySelector("#scissors");
+//store the scores
+let humanScore = 0;
+let computerScore = 0;
+// select the DOM elements
+const roundResult = document.getElementById("round-result");
+const scoreDisplay = document.getElementById("score");
+const winnerAnnouncement = document.getElementById("winner-announcement");
+const rockButton = document.getElementById("rock");
+const paperButton = document.getElementById("paper");
+const scissorsButton = document.getElementById("scissors");
+const restartButton = document.getElementById("restart-game");
 
 rockButton.addEventListener("click", () => {
   playRound("rock", getComputerChoice());
@@ -11,15 +19,16 @@ paperButton.addEventListener("click", () => {
 scissorsButton.addEventListener("click", () => {
   playRound("scissors", getComputerChoice());
 });
+restartButton.addEventListener("click", restartGame);
 
 // get computer choice
 function getComputerChoice() {
   //get the computer to give out random numbers and store in a variable
-  let computerChoice = Math.random();
+  let computerChoice = Math.floor(Math.random() * 3);
   // turn those variables into the options
-  if (computerChoice < 0.33) {
+  if (computerChoice === 1) {
     computerChoice = "rock";
-  } else if (computerChoice < 0.66) {
+  } else if (computerChoice === 2) {
     computerChoice = "paper";
   } else {
     computerChoice = "scissors";
@@ -27,13 +36,6 @@ function getComputerChoice() {
   //return the variable
   return computerChoice;
 }
-
-//store the scores
-let humanScore = 0;
-let computerScore = 0;
-const roundResult = document.querySelector("#round-result");
-const scoreDisplay = document.querySelector("#score");
-const winnerAnnouncement = document.querySelector("#winner-announcement");
 
 //play one round
 function playRound(humanChoice, computerChoice) {
@@ -69,4 +71,18 @@ function playRound(humanChoice, computerChoice) {
     paperButton.disabled = true;
     scissorsButton.disabled = true;
   }
+}
+
+//Restart the game
+function restartGame() {
+  // Enable the buttons
+  rockButton.disabled = false;
+  paperButton.disabled = false;
+  scissorsButton.disabled = false;
+
+  roundResult.textContent = "Restarting the game";
+  humanScore = 0;
+  computerScore = 0;
+  scoreDisplay.textContent = `Player: ${humanScore} | Computer: ${computerScore}`;
+  winnerAnnouncement.textContent = "";
 }
